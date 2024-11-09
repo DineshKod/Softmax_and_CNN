@@ -64,8 +64,7 @@ def compute_z(x,W,b):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    ## z[i] = x*W[i] + b[i]
-    z = np.dot(W, x) + b
+
     #########################################
     return z 
 
@@ -80,11 +79,11 @@ def compute_a(z):
             a: the softmax activations, a float numpy vector of shape (c, ). 
     '''
     #########################################
-    ## INSERT YOUR CODE HERE 
-    ## e^z[i]/e^z[1] + e^z[2] + ... e^z[len(z)]
-    exp_z = np.exp(z - np.max(z))  # Stability improvement
-    a = exp_z / np.sum(exp_z)  # Handle potential division by zero
+    ## INSERT YOUR CODE HERE
+
+    #########################################
     return a
+
 #-----------------------------------------------------------------
 def compute_L(a,y):
     '''
@@ -97,7 +96,7 @@ def compute_L(a,y):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    L = float(-np.log(a[y]))
+
     #########################################
     return L 
 
@@ -117,9 +116,7 @@ def forward(x,y,W,b):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    z = compute_z(x, W, b)
-    a = compute_a(z)
-    L = compute_L(a, y)
+
     #########################################
     return z, a, L 
 
@@ -143,9 +140,7 @@ def compute_dL_da(a, y):
     '''
     #########################################
     ## INSERT YOUR CODE HERE    
-    ## a[i] - y[i]
-    dL_da = a.copy()
-    dL_da[y] -= 1
+
     #########################################
     return dL_da 
 
@@ -164,15 +159,7 @@ def compute_da_dz(a):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    ## if i==j -> a[i] * (1 - a[i]), elif i=!j -> -a[i]*a[j]]
-    c = a.shape[0]
-    da_dz = np.zeros((c,c))
-    for i in range(c):
-        for j in range(c):
-            if i == j: 
-                da_dz[i, j] = a[i] * (1 - a[i])
-            else:
-                da_dz[i, j] = -a[i] * a[j]
+
     #########################################
     return da_dz 
 
@@ -191,8 +178,6 @@ def compute_dz_dW(x,c):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    ## x[j]
-    dz_dW = np.tile(x, (c, 1))
 
     #########################################
     return dz_dW
@@ -213,8 +198,7 @@ def compute_dz_db(c):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    ## 1
-    dz_db = np.ones(c)
+
     #########################################
     return dz_db
 
@@ -243,10 +227,6 @@ def backward(x, y, a):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    dL_da = compute_dL_da(a, y)
-    da_dz = compute_da_dz(a)
-    dz_dW = compute_dz_dW(x, a.shape[0])
-    dz_db = compute_dz_db(a.shape[0])
 
     #########################################
     return dL_da, da_dz, dz_dW, dz_db
@@ -266,8 +246,7 @@ def compute_dL_dz(dL_da,da_dz):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    ## (dL/da)*(da/dz) = dL/dz
-    dL_dz = np.dot(da_dz, dL_da)
+
     #########################################
     return dL_dz
 
@@ -288,8 +267,7 @@ def compute_dL_dW(dL_dz,dz_dW):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    ## (dL/dz)/(dz/dW) = dL/dW
-    dL_dW = np.dot(dL_dz, dz_dW)
+
     #########################################
     return dL_dW
 
@@ -311,8 +289,7 @@ def compute_dL_db(dL_dz,dz_db):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    ## (dL/dz) * (dz/db) = dL/db ----- dz_db is all ones
-    dL_db = np.multiply(dL_dz, dz_db)  
+
     #########################################
     return dL_db 
 
@@ -335,7 +312,7 @@ def update_W(W, dL_dW, alpha=0.001):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    W -= alpha * dL_dW
+
     #########################################
     return W
 
@@ -357,7 +334,7 @@ def update_b(b, dL_db, alpha=0.001):
     
     #########################################
     ## INSERT YOUR CODE HERE
-    b -= alpha * dL_db
+
     #########################################
     return b 
 
@@ -388,17 +365,10 @@ def train(X, Y, alpha=0.01, n_epoch=100):
     for _ in range(n_epoch):
         # go through each training instance
         for x, y in zip(X, Y):
-            #print('for loop')
+            print('for loop')
             #########################################
             ## INSERT YOUR CODE HERE
-            z, a, L = forward(x, y, W, b)
-            dL_da, da_dz, dz_dW, dz_db = backward(x, y, a)
-            dL_dz = compute_dL_dz(dL_da, da_dz)
-            dL_dW = compute_dL_dW(dL_dz, dz_dW)
-            dL_db = compute_dL_db(dL_dz, dz_db)
 
-            W = update_W(W, dL_dW, alpha)
-            b = update_b(b, dL_db, alpha)
 
             #########################################
     return W, b
@@ -423,13 +393,7 @@ def predict(Xtest, W, b):
     for i, x in enumerate(Xtest):
         print('for loop')
         #########################################
-        ## INSERT YOUR CODE 
-        ## z[i] = x*W[i] + b[i]
-        
-        z = compute_z(x, W, b)
-        a = compute_a(z)
-        P[i] = a
-        Y[i] = np.argmax(a)  # Get the predicted class label
+        ## INSERT YOUR CODE HERE
 
         #########################################
     return Y, P 
