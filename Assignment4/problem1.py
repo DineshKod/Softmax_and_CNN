@@ -83,6 +83,7 @@ def compute_a(z):
     ## INSERT YOUR CODE HERE 
     ## e^z[i]/e^z[1] + e^z[2] + ... e^z[len(z)]
     exp_z = np.exp(z - np.max(z))  # Stability improvement
+    old_err = np.seterr(under='ignore')
     a = exp_z / np.sum(exp_z)  # Handle potential division by zero
     return a
 #-----------------------------------------------------------------
@@ -97,7 +98,7 @@ def compute_L(a,y):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    L = float(-np.log(a[y]))
+    L = float(-np.log(a[y] + 1e-10))
     #########################################
     return L 
 
@@ -165,7 +166,7 @@ def compute_da_dz(a):
     #########################################
     ## INSERT YOUR CODE HERE
     ## if i==j -> a[i] * (1 - a[i]), elif i=!j -> -a[i]*a[j]]
-    c = a.shape[0]
+    c = len(a)
     da_dz = np.zeros((c,c))
     for i in range(c):
         for j in range(c):
@@ -289,7 +290,7 @@ def compute_dL_dW(dL_dz,dz_dW):
     #########################################
     ## INSERT YOUR CODE HERE
     ## (dL/dz)/(dz/dW) = dL/dW
-    dL_dW = np.dot(dL_dz, dz_dW)
+    dL_dW = np.outer(dL_dz, dz_dW)
     #########################################
     return dL_dW
 
