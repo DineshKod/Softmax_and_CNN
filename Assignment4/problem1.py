@@ -65,7 +65,7 @@ def compute_z(x,W,b):
     #########################################
     ## INSERT YOUR CODE HERE
     ## z[i] = x*W[i] + b[i]
-    z = np.dot(W, x) + b
+    z = W@x + b
     #########################################
     return z 
 
@@ -146,10 +146,9 @@ def compute_dL_da(a, y):
     #########################################
     ## INSERT YOUR CODE HERE    
     ## a[i] - y[i]
-    one_hot_y = np.zeros_like(a)
-    one_hot_y[y] = 1   
-    epsilon = 1e-10
-    dL_da = - (one_hot_y / (a + epsilon))
+    onehot_y = np.zeros_like(a)
+    onehot_y[y] = 1   
+    dL_da = - (onehot_y / (a+1e-10))
     #########################################
     return dL_da
 
@@ -218,7 +217,7 @@ def compute_dz_db(c):
     #########################################
     ## INSERT YOUR CODE HERE
     ## 1
-    dz_db = np.ones(c)
+    dz_db = np.array([1] * c)
     #########################################
     return dz_db
 
@@ -271,7 +270,7 @@ def compute_dL_dz(dL_da,da_dz):
     #########################################
     ## INSERT YOUR CODE HERE
     ## (dL/da)*(da/dz) = dL/dz
-    dL_dz = np.dot(da_dz, dL_da)
+    dL_dz = np.dot(dL_da.T, da_dz)
     #########################################
     return dL_dz
 
