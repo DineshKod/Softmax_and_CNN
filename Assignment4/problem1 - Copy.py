@@ -146,10 +146,8 @@ def compute_dL_da(a, y):
     #########################################
     ## INSERT YOUR CODE HERE    
     ## a[i] - y[i]
-    one_hot_y = np.zeros_like(a)
-    one_hot_y[y] = 1   
-    epsilon = 1e-10
-    dL_da = - (one_hot_y / (a + epsilon))
+    dL_da = a.copy()
+    dL_da[y] -= 1
     #########################################
     return dL_da
 
@@ -397,9 +395,7 @@ def train(X, Y, alpha=0.01, n_epoch=100):
             #########################################
             ## INSERT YOUR CODE HERE
             z, a, L = forward(x, y, W, b)
-
             dL_da, da_dz, dz_dW, dz_db = backward(x, y, a)
-
             dL_dz = compute_dL_dz(dL_da, da_dz)
             dL_dW = compute_dL_dW(dL_dz, dz_dW)
             dL_db = compute_dL_db(dL_dz, dz_db)
